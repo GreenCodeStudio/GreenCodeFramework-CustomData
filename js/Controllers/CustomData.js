@@ -10,38 +10,17 @@ import {Permissions} from "../../../Core/js/permissions";
 export class index {
     constructor(page, data) {
         const container = page.querySelector('.page-CustomData-list .container');
-        let datasource = new DatasourceAjax('CustomData', 'getTable', ['CustomData', 'CustomData'], null, 'updateMultiple');
+        let datasource = new DatasourceAjax('CustomData', 'getTable', ['CustomData', 'CustomData'], {tableId:data.schema.id}, 'updateMultiple');
         let objectsList = new ObjectsList(datasource);
         objectsList.allowTableEdit = true;
-        objectsList.columns = [];
-        objectsList.columns.push({
-            name: t('CustomData.custom_data_table_id'),
-            dataName: 'custom_data_table_id',
-            sortName: 'custom_data_table_id',
+        console.log('data', data)
+        objectsList.columns = data.schema.fields.map(f=>({
+            name: f.name,
+            dataName: 'v_'+f.id,
+            sortName: 'v_'+f.id,
             width: 100,
             widthGrow: 1
-        });
-        objectsList.columns.push({
-            name: t('CustomData.name'),
-            dataName: 'name',
-            sortName: 'name',
-            width: 100,
-            widthGrow: 1
-        });
-        objectsList.columns.push({
-            name: t('CustomData.type'),
-            dataName: 'type',
-            sortName: 'type',
-            width: 100,
-            widthGrow: 1
-        });
-        objectsList.columns.push({
-            name: t('CustomData.type_params'),
-            dataName: 'type_params',
-            sortName: 'type_params',
-            width: 100,
-            widthGrow: 1
-        });
+        }));
         objectsList.generateActions = (rows, mode) => {
             let ret = [];
             if (rows.length == 1) {

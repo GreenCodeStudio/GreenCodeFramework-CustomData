@@ -48,4 +48,13 @@ class CustomDataSchemaRepository extends \Core\Repository
         else
             return DB::get("SELECT * FROM custom_data_table");
     }
+
+    public function getFullSchemaById(int $tableId)
+    {
+        $table= DB::get("SELECT * FROM custom_data_table WHERE id = ?", [$tableId])[0];
+        if (empty($table))
+            return null;
+        $table->fields = DB::get("SELECT * FROM custom_data_field WHERE custom_data_table_id = ?", [$tableId]);
+        return $table;
+    }
 }

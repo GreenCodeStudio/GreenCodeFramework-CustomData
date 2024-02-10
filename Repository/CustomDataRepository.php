@@ -24,7 +24,13 @@ class CustomDataRepository extends \Core\Repository
         $start = (int)$options->start;
         $limit = (int)$options->limit;
         $sqlOrder = $this->getOrderSQL($options);
-        $rows = DB::get("SELECT * FROM custom_data_item $sqlOrder LIMIT $start,$limit");
+        $selects=['cdi.id'];
+        $schema = (new CustomDataSchemaRepository())->getFullSchemaById($options->params->tableId);
+        foreach ($schema->fields as $field) {
+            $selects[] = "MAX(CASE WHEN custom_data_field_id = $field->id THEN value END) as v_$field->id";
+        }
+        dump("SELECT ".implode(', ',$selects)." FROM custom_data_item cdi LEFT JOIN custom_data_value cdv ON cdv.custom_data_item_id=cdv.id $sqlOrder GROUP BY cdi.id LIMIT $start,$limit");
+        $rows = DB::get("SELECT ".implode(', ',$selects)." FROM custom_data_item cdi LEFT JOIN custom_data_value cdv ON cdv.custom_data_item_id=cdi.id $sqlOrder GROUP BY cdi.id LIMIT $start,$limit");
         $total = DB::get("SELECT count(*) as count FROM custom_data_item")[0]->count;
         return ['rows' => $rows, 'total' => $total];
     }

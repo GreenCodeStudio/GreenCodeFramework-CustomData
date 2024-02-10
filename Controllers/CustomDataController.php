@@ -8,12 +8,21 @@ use Core\Exceptions\NotFoundException;
 class CustomDataController extends \Common\PageStandardController
 {
 
-    function index()
+    function index(int $tableId, bool $a=false)
     {
         $this->will('CustomData', 'show');
         $this->addView('CustomData', 'CustomDataList');
         $this->pushBreadcrumb(['title' => 'CustomData', 'url' => '/CustomData']);
 
+    }
+    function index_data(int $tableId)
+    {
+        $this->will('CustomData', 'show');
+        $CustomDataSchema = new \CustomData\CustomDataSchema();
+        $schema = $CustomDataSchema->getSchemaByTableId($tableId);
+        if ($schema == null)
+            throw new NotFoundException();
+        return ['schema' => $schema];
     }
 
     /**

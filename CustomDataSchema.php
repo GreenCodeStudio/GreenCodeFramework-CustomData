@@ -46,5 +46,10 @@ class CustomDataSchema extends \Core\BussinesLogic
         return $this->defaultDB->getAll();
     }
 
+    public function getSchemaByTableId(int $tableId)
+    {
+       return (new CustomDataSchemaRepository())->getFullSchemaById($tableId);
+    }
+
 
 }

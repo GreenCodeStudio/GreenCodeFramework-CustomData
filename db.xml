@@ -103,21 +103,6 @@
             <null>NO</null>
         </column>
         <column>
-            <name>name</name>
-            <type>text</type>
-            <null>YES</null>
-        </column>
-        <column>
-            <name>type</name>
-            <type>varchar(32)</type>
-            <null>NO</null>
-        </column>
-        <column>
-            <name>type_params</name>
-            <type>json</type>
-            <null>YES</null>
-        </column>
-        <column>
             <name>created</name>
             <type>datetime</type>
             <null>NO</null>
