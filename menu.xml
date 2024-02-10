@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu>
+    <group/>
+    <element>
+        <link>/CustomDataSchema</link>
+        <title>CustomDataSchema</title>
+    </element>
+    <group/>
+    <element>
+        <link>/CustomData</link>
+        <title>CustomData</title>
+    </element>
+</menu>

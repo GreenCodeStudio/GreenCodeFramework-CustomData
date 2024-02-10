@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<permissions>
+    <group>
+        <name>CustomDataSchema</name>
+        <title>CustomDataSchema</title>
+        <permission>
+            <name>show</name>
+            <title>Odczyt</title>
+        </permission>
+        <permission>
+            <name>edit</name>
+            <title>Edycja</title>
+        </permission>
+        <permission>
+            <name>add</name>
+            <title>Dodawanie</title>
+        </permission>
+        <permission>
+            <name>remove</name>
+            <title>Usuwanie</title>
+        </permission>
+    </group>
+    <group>
+        <name>CustomData</name>
+        <title>CustomData</title>
+        <permission>
+            <name>show</name>
+            <title>Odczyt</title>
+        </permission>
+        <permission>
+            <name>edit</name>
+            <title>Edycja</title>
+        </permission>
+        <permission>
+            <name>add</name>
+            <title>Dodawanie</title>
+        </permission>
+        <permission>
+            <name>remove</name>
+            <title>Usuwanie</title>
+        </permission>
+    </group>
+</permissions>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <node name="CustomDataSchema">
+        <node name="CustomDataSchema">
+            <value lang="en">CustomDataSchema</value>
+        </node>
+        <node name="id">
+            <value lang="en">id</value>
+        </node>
+        <node name="name">
+            <value lang="en">name</value>
+        </node>
+        <node name="is_archived">
+            <value lang="en">is_archived</value>
+        </node>
+        <node name="created">
+            <value lang="en">created</value>
+        </node>
+        <node name="updated">
+            <value lang="en">updated</value>
+        </node>
+    </node>
+    <node name="CustomDataSchemaList">
+        <node name="header">
+            <value lang="en">List of elements of type CustomDataSchema</value>
+        </node>
+    </node>
+    <node name="CustomData">
+        <node name="CustomData">
+            <value lang="en">CustomData</value>
+        </node>
+        <node name="id">
+            <value lang="en">id</value>
+        </node>
+        <node name="custom_data_table_id">
+            <value lang="en">custom_data_table_id</value>
+        </node>
+        <node name="name">
+            <value lang="en">name</value>
+        </node>
+        <node name="type">
+            <value lang="en">type</value>
+        </node>
+        <node name="type_params">
+            <value lang="en">type_params</value>
+        </node>
+        <node name="created">
+            <value lang="en">created</value>
+        </node>
+        <node name="updated">
+            <value lang="en">updated</value>
+        </node>
+    </node>
+    <node name="CustomDataList">
+        <node name="header">
+            <value lang="en">List of elements of type CustomData</value>
+        </node>
+    </node>
+</root>

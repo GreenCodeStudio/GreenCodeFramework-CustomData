@@ -1,0 +1,19 @@
+<form>
+    <div class="topBarButtons">
+        <a href=("/CustomDataSchema/edit/":item.id) class="button action-edit"><span class="icon-edit"></span>{{t("CommonBase.edit")}}
+    </a>
+</div>
+<div class="grid page-CustomDataSchema page-CustomDataSchema-show">
+<input name="id" type="hidden"/>
+<section class=
+("card action-":type) data-width="6">
+<header>
+    <h1>{{t("CustomData.CustomDataSchema.CustomDataSchema")}}</h1>
+</header>
+<div class="pseudoLabel">
+    <span>{{t("CustomData.CustomDataSchema.name")}}:</span>
+    <strong>{{item.name}}</strong>
+</div>
+</section>
+        </div>
+        </form>
