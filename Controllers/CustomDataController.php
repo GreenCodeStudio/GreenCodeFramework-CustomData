@@ -8,10 +8,10 @@ use Core\Exceptions\NotFoundException;
 class CustomDataController extends \Common\PageStandardController
 {
 
-    function index(int $tableId, bool $a=false)
+    function index(int $tableId)
     {
         $this->will('CustomData', 'show');
-        $this->addView('CustomData', 'CustomDataList');
+        $this->addView('CustomData', 'CustomDataList', ['tableId' => $tableId]);
         $this->pushBreadcrumb(['title' => 'CustomData', 'url' => '/CustomData']);
 
     }
@@ -49,13 +49,12 @@ class CustomDataController extends \Common\PageStandardController
         return ['CustomData' => $data, 'selects' => $CustomData->getSelects()];
     }
 
-    /**
-     * @OfflineConstant
-     */
-    function add()
+    function add(int $tableId)
     {
+        $CustomDataSchema = new \CustomData\CustomDataSchema();
+        $schema = $CustomDataSchema->getSchemaByItemId($tableId);
         $this->will('CustomData', 'add');
-        $this->addView('CustomData', 'CustomDataEdit', ['type' => 'add']);
+        $this->addView('CustomData', 'CustomDataEdit', ['type' => 'add', 'schema' => $schema]);
         $this->pushBreadcrumb(['title' => 'CustomData', 'url' => '/CustomData']);
         $this->pushBreadcrumb(['title' => 'Dodaj', 'url' => '/CustomData/add']);
     }
@@ -67,9 +66,6 @@ class CustomDataController extends \Common\PageStandardController
         return ['selects' => $CustomData->getSelects()];
     }
 
-    /**
-     * @param int $id
-     */
     function show(int $id)
     {
         $this->will('CustomData', 'show');
