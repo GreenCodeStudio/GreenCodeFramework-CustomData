@@ -24,26 +24,31 @@ class CustomDataRepository extends \Core\Repository
         $start = (int)$options->start;
         $limit = (int)$options->limit;
         $sqlOrder = $this->getOrderSQL($options);
-        $selects=['cdi.id'];
+        $selects = ['cdi.id'];
         $schema = (new CustomDataSchemaRepository())->getFullSchemaById($options->params->tableId);
         foreach ($schema->fields as $field) {
-            $selects[] = "MAX(CASE WHEN custom_data_field_id = $field->id THEN value END) as v_$field->id";
+            $selects[] = "MAX(CASE WHEN custom_data_field_id = $field->id THEN cdv.value END) as v_$field->id";
         }
-        dump("SELECT ".implode(', ',$selects)." FROM custom_data_item cdi LEFT JOIN custom_data_value cdv ON cdv.custom_data_item_id=cdv.id $sqlOrder GROUP BY cdi.id LIMIT $start,$limit");
-        $rows = DB::get("SELECT ".implode(', ',$selects)." FROM custom_data_item cdi LEFT JOIN custom_data_value cdv ON cdv.custom_data_item_id=cdi.id $sqlOrder GROUP BY cdi.id LIMIT $start,$limit");
-        $total = DB::get("SELECT count(*) as count FROM custom_data_item")[0]->count;
+        $rows = DB::get("
+        SELECT ".implode(', ', $selects)." 
+        FROM custom_data_item cdi 
+        LEFT JOIN custom_data_value cdv ON cdv.custom_data_item_id=cdi.id 
+        WHERE custom_data_table_id = ? 
+        GROUP BY cdi.id 
+        $sqlOrder 
+        LIMIT $start,$limit", [$options->params->tableId]);
+        $total = DB::get("SELECT count(*) as count FROM custom_data_item WHERE custom_data_table_id = ?", [$options->params->tableId])[0]->count;
         return ['rows' => $rows, 'total' => $total];
     }
 
     private function getOrderSQL($options)
     {
-        if (empty($options->sort))
+        if (empty($options->sort)) {
             return "";
-        else {
-            $mapping = ['custom_data_table_id' => 'custom_data_table_id', 'name' => 'name', 'type' => 'type', 'type_params' => 'type_params', 'created' => 'created', 'updated' => 'updated'];
-            if (empty($mapping[$options->sort->col]))
-                throw new Exception();
-            return ' ORDER BY '.DB::safeKey($mapping[$options->sort->col]).' '.($options->sort->desc ? 'DESC' : 'ASC').' ';
+        } else {
+            if (preg_match('/^v_([0-9]+)$/', $options->sort->col, $matches)) {
+                return ' ORDER BY '.DB::safeKey($matches[0]).' '.($options->sort->desc ? 'DESC' : 'ASC').' ';
+            }
         }
     }
 
@@ -53,5 +58,14 @@ class CustomDataRepository extends \Core\Repository
             return DB::get("SELECT * FROM custom_data_item WHERE is_archived = 0");
         else
             return DB::get("SELECT * FROM custom_data_item");
+    }
+
+    public function getById(int $id){
+        $item = DB::get("SELECT * FROM custom_data_item WHERE id = ?", [$id])[0];
+        foreach (DB::get("SELECT * FROM custom_data_value WHERE custom_data_item_id = ?", [$id]) as $value){
+            $key=('v_'.$value->custom_data_field_id);
+            $item->$key= $value->value;
+        }
+        return $item;
     }
 }

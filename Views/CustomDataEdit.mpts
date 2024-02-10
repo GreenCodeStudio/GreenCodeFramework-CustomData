@@ -1,30 +1,22 @@
 <form>
     <div class="topBarButtons">
         <a href="/CustomData/" class="button"><span class="icon-cancel"></span>{{t("CommonBase.cancel")}}</a>
-        <button class=
-        ("button action-":type)><span class="icon-save"></span>{{t("CommonBase.save")}}
-    </button>
-</div>
-<div class="grid page-CustomData page-CustomData-edit">
-<input name="id" type="hidden"/>
-<section class=
-("card action-":type) data-width="6">
-<header>
-    <h1>{{t("CustomData.CustomData.CustomData")}}</h1>
-</header>
-<label>
-    <span>{{t("CustomData.CustomData.custom_data_table_id")}}</span>
-    <select data-foreign-key="custom_data_table" name="custom_data_table_id" required> </select>
-</label><label>
-    <span>{{t("CustomData.CustomData.name")}}</span>
-    <input type="text" name="name"/>
-</label><label>
-    <span>{{t("CustomData.CustomData.type")}}</span>
-    <input type="text" name="type" required/>
-</label><label>
-    <span>{{t("CustomData.CustomData.type_params")}}</span>
-    <input type="text" name="type_params"/>
-</label>
-</section>
-        </div>
-        </form>
+        <button class=("button action-":type) ><span class="icon-save"></span>{{t("CommonBase.save")}}</button>
+    </div>
+    <div class="grid page-CustomData page-CustomData-edit">
+    <input name="id" type="hidden"/>
+        <section class=
+        ("card action-":type) data-width="6">
+        <header>
+            <h1>{{t("CustomData.CustomData.CustomData")}}</h1>
+        </header>
+
+            <:foreach collection=(schema.fields) item=field>
+                <label>
+                    <span>{{field.name}}</span>
+                    <input type="text" name=("v_":field.id) required/>
+                </label>
+            </:foreach>
+        </section>
+    </div>
+</form>

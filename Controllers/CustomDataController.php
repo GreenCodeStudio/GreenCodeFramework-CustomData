@@ -31,8 +31,10 @@ class CustomDataController extends \Common\PageStandardController
      */
     function edit(int $id)
     {
+        $CustomDataSchema = new \CustomData\CustomDataSchema();
+        $schema = $CustomDataSchema->getSchemaByItemId($id);
         $this->will('CustomData', 'edit');
-        $this->addView('CustomData', 'CustomDataEdit', ['type' => 'edit']);
+        $this->addView('CustomData', 'CustomDataEdit', ['type' => 'edit', 'schema' => $schema]);
         $this->pushBreadcrumb(['title' => 'CustomData', 'url' => '/CustomData']);
         $this->pushBreadcrumb(['title' => 'Edycja', 'url' => '/CustomData/edit/'.$id]);
     }

@@ -51,9 +51,7 @@ class CustomData extends \Core\BussinesLogic
 
     public function getSelects()
     {
-        $ret = [];
-        $custom_data_table = new Repository\custom_data_tableRepository();
-        $ret["custom_data_table"] = $custom_data_table->getSelect();
-        return $ret;
+        return [];
     }
+
 }

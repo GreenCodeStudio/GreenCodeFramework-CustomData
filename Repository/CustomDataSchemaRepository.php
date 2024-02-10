@@ -57,4 +57,17 @@ class CustomDataSchemaRepository extends \Core\Repository
         $table->fields = DB::get("SELECT * FROM custom_data_field WHERE custom_data_table_id = ?", [$tableId]);
         return $table;
     }
+    public function getSchemaByItemId(int $tableId)
+    {
+        $table= DB::get("
+SELECT cdt.* 
+FROM custom_data_table cdt
+JOIN custom_data_item cdi ON cdi.custom_data_table_id = cdt.id
+WHERE cdi.id = ?
+", [$tableId])[0];
+        if (empty($table))
+            return null;
+        $table->fields = DB::get("SELECT * FROM custom_data_field WHERE custom_data_table_id = ?", [$table->id]);
+        return $table;
+    }
 }
