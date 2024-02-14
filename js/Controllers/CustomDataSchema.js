@@ -6,6 +6,8 @@ import {t} from "../../i18n.xml";
 import {t as TCommonBase} from "../../../CommonBase/i18n.xml";
 import {ObjectsList} from "../../../Core/js/ObjectsList/objectsList";
 import {Permissions} from "../../../Core/js/permissions";
+import {ListRenderer} from "../../../Core/js/utils/listRenderer";
+import CustomDataSchemaField from "../../Views/CustomDataSchemaField.mpts";
 
 export class index {
     constructor(page, data) {
@@ -24,6 +26,12 @@ export class index {
         objectsList.generateActions = (rows, mode) => {
             let ret = [];
             if (rows.length == 1) {
+                ret.push({
+                    name: TCommonBase("show"),
+                    icon: 'icon-show',
+                    href: "/CustomData/index/" + rows[0].id,
+                    action: "show"
+                });
                 if (Permissions.can('CustomDataSchema', 'edit')) {
                     ret.push({
                         name: TCommonBase("edit"),
@@ -43,25 +51,33 @@ export class index {
 export class edit {
     constructor(page, data) {
         let form = new FormManager(page.querySelector('form'));
-        form.loadSelects(data.selects);
-        form.load(data.CustomDataSchema);
-
-        form.submit = async newData => {
-            await Ajax.CustomDataSchema.update(newData);
+        let fields = new ListRenderer(page.querySelector('.fields'), (item, node) => {
+            if (node) {
+                item.name = node.querySelector('.name').value;
+                item.type = node.querySelector('.type').value;
+            }
+            return CustomDataSchemaField(item).firstChild;
+        });
+        page.querySelector('.addField').onclick = e => {
+            e.preventDefault();
+            fields.add({name: '', type: 'text'});
+        }
+        form.submit = async rawNewData => {
+            let newData = {id: rawNewData.id, name: rawNewData.name}
+            fields.render();
+            newData.fields = fields.list;
+            if (newData.id)
+                await Ajax.CustomDataSchema.update(newData);
+            else
+                await Ajax.CustomDataSchema.insert(newData);
             pageManager.goto('/CustomDataSchema');
         }
+
     }
 }
 
-export class add {
+export class add extends edit {
     constructor(page, data) {
-        let form = new FormManager(page.querySelector('form'));
-        if (data && data.selects)
-            form.loadSelects(data.selects);
-
-        form.submit = async newData => {
-            await Ajax.CustomDataSchema.insert(newData);
-            pageManager.goto('/CustomDataSchema');
-        }
+        super(page, data);
     }
 }

@@ -4,25 +4,19 @@
         <node name="CustomDataSchema">
             <value lang="en">CustomDataSchema</value>
         </node>
-        <node name="id">
-            <value lang="en">id</value>
-        </node>
         <node name="name">
             <value lang="en">name</value>
+            <value lang="pl">nazwa</value>
         </node>
-        <node name="is_archived">
-            <value lang="en">is_archived</value>
-        </node>
-        <node name="created">
-            <value lang="en">created</value>
-        </node>
-        <node name="updated">
-            <value lang="en">updated</value>
+        <node name="addField">
+            <value lang="en">Add field</value>
+            <value lang="pl">Dodaj pole</value>
         </node>
     </node>
     <node name="CustomDataSchemaList">
         <node name="header">
-            <value lang="en">List of elements of type CustomDataSchema</value>
+            <value lang="en">List of custom data tables</value>
+            <value lang="pl">Lista tabel niestandardowych</value>
         </node>
     </node>
     <node name="CustomData">

@@ -60,7 +60,7 @@ class CustomDataController extends \Common\PageStandardController
     function add(int $tableId)
     {
         $CustomDataSchema = new \CustomData\CustomDataSchema();
-        $schema = $CustomDataSchema->getSchemaByItemId($tableId);
+        $schema = $CustomDataSchema->getSchemaByTableId($tableId);
         $this->will('CustomData', 'add');
         $this->addView('CustomData', 'CustomDataEdit', ['type' => 'add', 'schema' => $schema]);
         $this->pushBreadcrumb(['title' => 'CustomData', 'url' => '/CustomData']);

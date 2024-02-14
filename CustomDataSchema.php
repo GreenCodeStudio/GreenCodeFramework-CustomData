@@ -3,6 +3,7 @@
 namespace CustomData;
 
 use CustomData\Repository\CustomDataSchemaRepository;
+use MKrawczyk\FunQuery\FunQuery;
 
 class CustomDataSchema extends \Core\BussinesLogic
 {
@@ -23,20 +24,20 @@ class CustomDataSchema extends \Core\BussinesLogic
         \Core\WebSocket\Sender::sendToUsers(["CustomData", "CustomDataSchema", "Update", $id]);
     }
 
-    protected function filterData($data)
-    {
-        $ret = [];
-        $ret['name'] = empty($data->name) ? null : $data->name;
-        $ret['updated'] = new \DateTime();;
-
-        return $ret;
-    }
-
     public function insert($data): int
     {
-        $filtered = $this->filterData($data);
-        $filtered['created'] = new \DateTime();
-        $id = $this->defaultDB->insert($filtered);
+        $item['name'] = $data->name;
+        $item['created'] = new \DateTime();
+        $item['updated'] = new \DateTime();
+        $fields=FunQuery::create($data->fields)->map(function($field){
+            return [
+                'name'=>$field->name,
+                'type'=>$field->type,
+                'created'=>new \DateTime(),
+                'updated'=>new \DateTime(),
+            ];
+        })->toArray();
+        $id = $this->defaultDB->insertTable($item, $fields);
         \Core\WebSocket\Sender::sendToUsers(["CustomData", "CustomDataSchema", "Insert", $id]);
         return $id;
     }

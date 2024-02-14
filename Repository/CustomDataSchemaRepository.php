@@ -64,11 +64,23 @@ class CustomDataSchemaRepository extends \Core\Repository
 SELECT cdt.* 
 FROM custom_data_table cdt
 JOIN custom_data_item cdi ON cdi.custom_data_table_id = cdt.id
-WHERE cdt.id = ?
+WHERE cdi.id = ?
 ", [$tableId])[0];
         if (empty($table))
             return null;
         $table->fields = DB::get("SELECT * FROM custom_data_field WHERE custom_data_table_id = ?", [$table->id]);
         return $table;
+    }
+
+    public function insertTable($item, array $fields)
+    {
+        DB::beginTransaction();
+        $id = DB::insert('custom_data_table', $item);
+        foreach ($fields as $field) {
+            $field['custom_data_table_id'] = $id;
+            DB::insert('custom_data_field', $field);
+        }
+        DB::commit();
+        return $id;
     }
 }
