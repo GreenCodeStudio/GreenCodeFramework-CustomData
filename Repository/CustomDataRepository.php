@@ -60,12 +60,27 @@ class CustomDataRepository extends \Core\Repository
             return DB::get("SELECT * FROM custom_data_item");
     }
 
-    public function getById(int $id){
+    public function getById(int $id)
+    {
         $item = DB::get("SELECT * FROM custom_data_item WHERE id = ?", [$id])[0];
-        foreach (DB::get("SELECT * FROM custom_data_value WHERE custom_data_item_id = ?", [$id]) as $value){
-            $key=('v_'.$value->custom_data_field_id);
-            $item->$key= $value->value;
+        foreach (DB::get("SELECT * FROM custom_data_value WHERE custom_data_item_id = ?", [$id]) as $value) {
+            $key = ('v_'.$value->custom_data_field_id);
+            $item->$key = $value->value;
         }
         return $item;
+    }
+
+    public function insertRow($id, array $values)
+    {
+        DB::beginTransaction();
+        $id = DB::insert('custom_data_item', ['custom_data_table_id' => $id, 'created' => new \DateTime(), 'updated' => new \DateTime()]);
+        foreach ($values as $value) {
+            $value['custom_data_item_id'] = $id;
+            $value['created'] = new \DateTime();
+            $value['updated'] = new \DateTime();
+            DB::insert('custom_data_value', $value);
+        }
+        DB::commit();
+        return $id;
     }
 }

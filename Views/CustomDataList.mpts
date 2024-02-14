@@ -1,6 +1,8 @@
 <div class="topBarButtons">
-    <a href=("/CustomData/add/":tableId) class="button action-add"><span class="icon-add"></span> {{t("CommonBase.add")}}</a>
-</div>
+    <a href=("/CustomData/add/":tableId) class="button action-add"><span class="icon-add"></span>
+    {{t("CommonBase.add")}}
+</a>
+        </div>
 <div class="grid page-CustomData  page-CustomData-list">
 <section class="card action-view" data-width="6">
     <header>

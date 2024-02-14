@@ -3,6 +3,8 @@
 namespace CustomData;
 
 use CustomData\Repository\CustomDataRepository;
+use CustomData\Repository\CustomDataSchemaRepository;
+use MKrawczyk\FunQuery\FunQuery;
 
 class CustomData extends \Core\BussinesLogic
 {
@@ -37,9 +39,13 @@ class CustomData extends \Core\BussinesLogic
 
     public function insert($data): int
     {
-        $filtered = $this->filterData($data);
-        $filtered['created'] = new \DateTime();
-        $id = $this->defaultDB->insert($filtered);
+        $schema = (new CustomDataSchemaRepository())->getFullSchemaById($data->tableId);
+        $values = FunQuery::create($schema->fields)
+            ->map(function ($field) use ($data) {
+                return ['custom_data_field_id' => $field->id, 'value' => $data->{'v_'.$field->id}];
+            })
+            ->toArray();
+        $id = $this->defaultDB->insertRow($schema->id, $values);
         \Core\WebSocket\Sender::sendToUsers(["CustomData", "CustomData", "Insert", $id]);
         return $id;
     }

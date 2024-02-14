@@ -10,14 +10,14 @@ import {Permissions} from "../../../Core/js/permissions";
 export class index {
     constructor(page, data) {
         const container = page.querySelector('.page-CustomData-list .container');
-        let datasource = new DatasourceAjax('CustomData', 'getTable', ['CustomData', 'CustomData'], {tableId:data.schema.id}, 'updateMultiple');
+        let datasource = new DatasourceAjax('CustomData', 'getTable', ['CustomData', 'CustomData'], {tableId: data.schema.id}, 'updateMultiple');
         let objectsList = new ObjectsList(datasource);
         objectsList.allowTableEdit = true;
         console.log('data', data)
-        objectsList.columns = data.schema.fields.map(f=>({
+        objectsList.columns = data.schema.fields.map(f => ({
             name: f.name,
-            dataName: 'v_'+f.id,
-            sortName: 'v_'+f.id,
+            dataName: 'v_' + f.id,
+            sortName: 'v_' + f.id,
             width: 100,
             widthGrow: 1
         }));
@@ -61,7 +61,7 @@ export class add {
 
         form.submit = async newData => {
             await Ajax.CustomData.insert(newData);
-            pageManager.goto('/CustomData');
+            pageManager.goto('/CustomData/index/' + data.tableId);
         }
     }
 }

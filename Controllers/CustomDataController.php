@@ -13,8 +13,15 @@ class CustomDataController extends \Common\PageStandardController
         $this->will('CustomData', 'show');
         $this->addView('CustomData', 'CustomDataList', ['tableId' => $tableId]);
         $this->pushBreadcrumb(['title' => 'CustomData', 'url' => '/CustomData']);
+        $CustomDataSchema = new \CustomData\CustomDataSchema();
+        $schema = $CustomDataSchema->getSchemaByTableId($tableId);
+        if ($schema == null) {
+            throw new NotFoundException();
+        }
+        $this->pushBreadcrumb(['title' => $schema->name, 'url' => '/CustomData/index/'.$tableId]);
 
     }
+
     function index_data(int $tableId)
     {
         $this->will('CustomData', 'show');
@@ -36,6 +43,7 @@ class CustomDataController extends \Common\PageStandardController
         $this->will('CustomData', 'edit');
         $this->addView('CustomData', 'CustomDataEdit', ['type' => 'edit', 'schema' => $schema]);
         $this->pushBreadcrumb(['title' => 'CustomData', 'url' => '/CustomData']);
+        $this->pushBreadcrumb(['title' => $schema->name, 'url' => '/CustomData/index/'.$schema->id]);
         $this->pushBreadcrumb(['title' => 'Edycja', 'url' => '/CustomData/edit/'.$id]);
     }
 
@@ -56,14 +64,15 @@ class CustomDataController extends \Common\PageStandardController
         $this->will('CustomData', 'add');
         $this->addView('CustomData', 'CustomDataEdit', ['type' => 'add', 'schema' => $schema]);
         $this->pushBreadcrumb(['title' => 'CustomData', 'url' => '/CustomData']);
+        $this->pushBreadcrumb(['title' => $schema->name, 'url' => '/CustomData/index/'.$schema->id]);
         $this->pushBreadcrumb(['title' => 'Dodaj', 'url' => '/CustomData/add']);
     }
 
-    function add_data()
+    function add_data(int $tableId)
     {
         $this->will('CustomData', 'add');
         $CustomData = new \CustomData\CustomData();
-        return ['selects' => $CustomData->getSelects()];
+        return ['selects' => $CustomData->getSelects(), 'tableId' => $tableId];
     }
 
     function show(int $id)
