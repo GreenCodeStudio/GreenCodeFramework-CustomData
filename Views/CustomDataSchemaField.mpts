@@ -1,6 +1,6 @@
 <div>
     aaaa
-    <input type="text" class="name" value=name />
+    <input type="text" class="name" value=name >
     <select class="type" value=type >
         <option value="text">Text</option>
     </select>

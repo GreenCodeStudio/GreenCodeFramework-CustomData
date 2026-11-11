@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <menu>
-    <group/>
     <element>
+        <order>2000</order>
         <link>/CustomDataSchema</link>
-        <title>CustomDataSchema</title>
-    </element>
-    <group/>
-    <element>
-        <link>/CustomData</link>
-        <title>CustomData</title>
+        <title key="CustomData.menu">CustomDataSchema</title>
     </element>
 </menu>

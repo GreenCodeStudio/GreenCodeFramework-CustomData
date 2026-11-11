@@ -50,4 +50,8 @@
             <value lang="en">List of elements of type CustomData</value>
         </node>
     </node>
+    <node name="menu">
+        <value lang="en">Custom data</value>
+        <value lang="pl">Tabele niestandardowe</value>
+    </node>
 </root>
