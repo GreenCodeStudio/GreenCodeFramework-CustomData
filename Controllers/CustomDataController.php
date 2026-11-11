@@ -12,6 +12,7 @@ class CustomDataController extends \Common\PageStandardController
     {
         $this->will('CustomData', 'show');
         $this->addView('CustomData', 'CustomDataList', ['tableId' => $tableId]);
+        $this->pushBreadcrumb(['title' => t('CustomData.menu'), 'url' => '/CustomDataSchema']);
         $this->pushBreadcrumb(['title' => 'CustomData', 'url' => '/CustomData']);
         $CustomDataSchema = new \CustomData\CustomDataSchema();
         $schema = $CustomDataSchema->getSchemaByTableId($tableId);
@@ -42,9 +43,10 @@ class CustomDataController extends \Common\PageStandardController
         $schema = $CustomDataSchema->getSchemaByItemId($id);
         $this->will('CustomData', 'edit');
         $this->addView('CustomData', 'CustomDataEdit', ['type' => 'edit', 'schema' => $schema]);
+        $this->pushBreadcrumb(['title' => t('CustomData.menu'), 'url' => '/CustomDataSchema']);
         $this->pushBreadcrumb(['title' => 'CustomData', 'url' => '/CustomData']);
         $this->pushBreadcrumb(['title' => $schema->name, 'url' => '/CustomData/index/'.$schema->id]);
-        $this->pushBreadcrumb(['title' => 'Edycja', 'url' => '/CustomData/edit/'.$id]);
+        $this->pushBreadcrumb(['title' => t('CommonBase.breadcrumb.edit'), 'url' => '/CustomData/edit/'.$id]);
     }
 
     function edit_data(int $id)
@@ -63,9 +65,10 @@ class CustomDataController extends \Common\PageStandardController
         $schema = $CustomDataSchema->getSchemaByTableId($tableId);
         $this->will('CustomData', 'add');
         $this->addView('CustomData', 'CustomDataEdit', ['type' => 'add', 'schema' => $schema]);
+        $this->pushBreadcrumb(['title' => t('CustomData.menu'), 'url' => '/CustomDataSchema']);
         $this->pushBreadcrumb(['title' => 'CustomData', 'url' => '/CustomData']);
         $this->pushBreadcrumb(['title' => $schema->name, 'url' => '/CustomData/index/'.$schema->id]);
-        $this->pushBreadcrumb(['title' => 'Dodaj', 'url' => '/CustomData/add']);
+        $this->pushBreadcrumb(['title' => t('CommonBase.breadcrumb.add'), 'url' => '/CustomData/add']);
     }
 
     function add_data(int $tableId)
@@ -84,7 +87,8 @@ class CustomDataController extends \Common\PageStandardController
             throw new NotFoundException();
 
         $this->addView('CustomData', 'CustomDataShow', ['item' => $data]);
+        $this->pushBreadcrumb(['title' => t('CustomData.menu'), 'url' => '/CustomDataSchema']);
         $this->pushBreadcrumb(['title' => 'CustomData', 'url' => '/CustomData']);
-        $this->pushBreadcrumb(['title' => 'Szczegóły', 'url' => '/CustomData/show/'.$id]);
+        $this->pushBreadcrumb(['title' => t('CommonBase.breadcrumb.show'), 'url' => '/CustomData/show/'.$id]);
     }
 }

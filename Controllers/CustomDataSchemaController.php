@@ -12,7 +12,7 @@ class CustomDataSchemaController extends \Common\PageStandardController
     {
         $this->will('CustomDataSchema', 'show');
         $this->addView('CustomData', 'CustomDataSchemaList');
-        $this->pushBreadcrumb(['title' => 'CustomDataSchema', 'url' => '/CustomDataSchema']);
+        $this->pushBreadcrumb(['title' => t('CustomData.menu'), 'url' => '/CustomDataSchema']);
 
     }
 
@@ -24,8 +24,8 @@ class CustomDataSchemaController extends \Common\PageStandardController
     {
         $this->will('CustomDataSchema', 'edit');
         $this->addView('CustomData', 'CustomDataSchemaEdit', ['type' => 'edit']);
-        $this->pushBreadcrumb(['title' => 'CustomDataSchema', 'url' => '/CustomDataSchema']);
-        $this->pushBreadcrumb(['title' => 'Edycja', 'url' => '/CustomDataSchema/edit/'.$id]);
+        $this->pushBreadcrumb(['title' => t('CustomData.menu'), 'url' => '/CustomDataSchema']);
+        $this->pushBreadcrumb(['title' => t('CommonBase.breadcrumb.edit'), 'url' => '/CustomDataSchema/edit/'.$id]);
     }
 
     function edit_data(int $id)
@@ -45,8 +45,8 @@ class CustomDataSchemaController extends \Common\PageStandardController
     {
         $this->will('CustomDataSchema', 'add');
         $this->addView('CustomData', 'CustomDataSchemaEdit', ['type' => 'add']);
-        $this->pushBreadcrumb(['title' => 'CustomDataSchema', 'url' => '/CustomDataSchema']);
-        $this->pushBreadcrumb(['title' => 'Dodaj', 'url' => '/CustomDataSchema/add']);
+        $this->pushBreadcrumb(['title' => t('CustomData.menu'), 'url' => '/CustomDataSchema']);
+        $this->pushBreadcrumb(['title' => t('CommonBase.breadcrumb.add'), 'url' => '/CustomDataSchema/add']);
     }
 
 
@@ -62,7 +62,7 @@ class CustomDataSchemaController extends \Common\PageStandardController
             throw new NotFoundException();
 
         $this->addView('CustomData', 'CustomDataSchemaShow', ['item' => $data]);
-        $this->pushBreadcrumb(['title' => 'CustomDataSchema', 'url' => '/CustomDataSchema']);
-        $this->pushBreadcrumb(['title' => 'Szczegóły', 'url' => '/CustomDataSchema/show/'.$id]);
+        $this->pushBreadcrumb(['title' => t('CustomData.menu'), 'url' => '/CustomDataSchema']);
+        $this->pushBreadcrumb(['title' => t('CommonBase.breadcrumb.show'), 'url' => '/CustomDataSchema/show/'.$id]);
     }
 }
